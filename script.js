@@ -4,9 +4,8 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
 
-form.addEventListener('submit', e => {
+form.addEventListener('input', e => {
     e.preventDefault();
-
     checkInputs();
 });
 
@@ -23,6 +22,8 @@ function checkInputs() {
     }
 
     if(emailValue === '') {
+        setErrorFor(email, 'Acesta nu este un email');
+    } else if (!isEmail(emailValue)) {
         setErrorFor(email, 'Email invalid');
     } else {
         setSuccessFor(email);
@@ -37,7 +38,7 @@ function checkInputs() {
     if(password2Value === '' ) {
         setErrorFor(password2, 'Confirma parola');
     } else if(passwordValue !== password2Value) {
-        setErrorFor(password2, 'Passwords does not match');
+        setErrorFor(password2, 'Parolele nu coincid');
     } else{
         setSuccessFor(password2);
     }
