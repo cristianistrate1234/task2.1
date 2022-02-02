@@ -3,6 +3,7 @@ const username = document.getElementById('username');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
+submit.disabled = true;
 
 username.addEventListener('input', e => {
     e.preventDefault();
@@ -20,7 +21,10 @@ password2.addEventListener('input', e => {
     e.preventDefault();
     checkInputsPassword2();
 });
-submit.addEventListener('click' , () =>{
+
+
+
+submit.addEventListener('change' , () =>{
     checkInputs()
 })
 function checkInputs() {
@@ -29,29 +33,10 @@ function checkInputs() {
     const passwordValue = password.value.trim();
     const password2Value = password2.value.trim();
 
-    if(usernameValue.length < 3 ) {
-        setErrorFor(username, 'Minim 3 caractere');
+    if(usernameValue.length >= 3 && passwordValue === password2Value && passwordValue.length >= 6 && isEmail(emailValue)) {
+        submit.disabled = false;
     } else {
-        setSuccessFor(username);
-    }
-    if(emailValue === '') {
-        setErrorFor(email, 'Acesta nu este un email');
-    } else if (!isEmail(emailValue)) {
-        setErrorFor(email, 'Email invalid');
-    } else {
-        setSuccessFor(email);
-    }
-    if(passwordValue.length < 6 ) {
-        setErrorFor(password, 'Minim 6 caractere');
-    } else {
-        setSuccessFor(password);
-    }
-    if(password2Value === '' ) {
-        setErrorFor(password2, 'Confirma parola');
-    } else if(passwordValue !== password2Value) {
-        setErrorFor(password2, 'Parolele nu coincid');
-    } else{
-        setSuccessFor(password2);
+        submit.disabled = true;
     }
 }
 function checkInputsUsername() {
