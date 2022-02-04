@@ -76,6 +76,7 @@ body {
 }
 
 .form-control small {
+    height: 20px;
     color: #e74c3c;
     position: absolute;
     bottom: 0;

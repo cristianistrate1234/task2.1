@@ -4,10 +4,12 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
 
-let usernameField = false;
-let emailField = false;
-let firstPasswordField = false;
-let secondPasswordField = false;
+let submitButton = {
+    usernameField : false,
+    emailField : false,
+    firstPasswordField : false,
+    secondPasswordField : false
+}
 
 username.addEventListener('input', e => {
     e.preventDefault();
@@ -30,11 +32,16 @@ function checkInputsUsername() {
     const usernameValue = username.value.trim();
 
     if(usernameValue.length < 3) {
-        setErrorFor(username, 'Minim 3 caractere || Maxim 12 caractere');
-        usernameField = false;
+        setErrorFor(username, 'Minim 3 caractere , maxim 12 caractere ');
+        submitButton.usernameField = false;
+
+    } else if (usernameValue.length >= 12){
+        setErrorFor(username , 'Maxim 12 caractere')
+        submitButton.usernameField = false;
+
     } else {
         setSuccessFor(username);
-        usernameField = true;
+        submitButton.usernameField = true;
     }
     enableSubmit()
 }
@@ -43,25 +50,28 @@ function checkInputsEmail() {
 
     if (!emailValue.length) {
         setErrorFor(email, 'Acesta nu este un email');
-        emailField = false;
+        submitButton.emailField = false;
     } else if (!isEmail(emailValue)) {
         setErrorFor(email, 'Email invalid');
-        emailField = false;
+        submitButton.emailField = false;
     } else {
         setSuccessFor(email);
-        emailField = true;
+        submitButton.emailField = true;
     }
     enableSubmit()
 }
 function checkInputsPassword() {
     const passwordValue = password.value.trim();
 
-    if (passwordValue.length < 6) {
-        setErrorFor(password, 'Minim 6 caractere');
-        firstPasswordField = false;
+    if (!passwordValue.length) {
+        setErrorFor(password, 'Introduceti parola');
+        submitButton.firstPasswordField = false;
+    } else if (!specialPasswordCheck((passwordValue))){
+            setErrorFor(password, 'Minim 6 caractere , maxim 12 , caractere speciale!');
+            submitButton.firstPasswordField = false;
     } else {
         setSuccessFor(password);
-        firstPasswordField = true;
+        submitButton.firstPasswordField = true;
     }
     enableSubmit()
 }
@@ -71,13 +81,13 @@ function checkInputsPassword2() {
 
     if (!password2Value.length) {
         setErrorFor(password2, 'Confirma parola');
-        secondPasswordField = false;
+        submitButton.secondPasswordField = false;
     } else if (passwordValueConfirm !== password2Value) {
         setErrorFor(password2, 'Parolele nu coincid');
-        secondPasswordField = false;
+        submitButton.secondPasswordField = false;
     } else {
         setSuccessFor(password2);
-        secondPasswordField = true;
+        submitButton.secondPasswordField = true;
     }
     enableSubmit()
 }
@@ -94,9 +104,12 @@ function setSuccessFor(input) {
 function isEmail(email) {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 }
+function specialPasswordCheck(password){
+    return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/.test(password);
+}
 
 function enableSubmit(){
-    if (usernameField === true && emailField === true && firstPasswordField === true && secondPasswordField === true){
+    if (submitButton.usernameField === true && submitButton.emailField === true && submitButton.firstPasswordField === true && submitButton.secondPasswordField === true){
         submit.style.backgroundColor = "dodgerblue";
     }
 }
