@@ -32,84 +32,104 @@ function checkInputsUsername() {
     const usernameValue = username.value.trim();
 
     if(usernameValue.length < 3) {
-        setErrorFor(username, 'Minim 3 caractere , maxim 12 caractere ');
-        submitButton.usernameField = false;
+        setErrorFor(username, 'Minim 3 caractere');
+        // submitButton.usernameField = false;
 
     } else if (usernameValue.length >= 12){
         setErrorFor(username , 'Maxim 12 caractere')
-        submitButton.usernameField = false;
+        // submitButton.usernameField = false;
 
     } else {
         setSuccessFor(username);
-        submitButton.usernameField = true;
+        // submitButton.usernameField = true;
     }
-    enableSubmit()
+    // enableSubmit()
 }
 function checkInputsEmail() {
     const emailValue = email.value.trim();
 
     if (!emailValue.length) {
         setErrorFor(email, 'Acesta nu este un email');
-        submitButton.emailField = false;
+        // submitButton.emailField = false;
     } else if (!isEmail(emailValue)) {
         setErrorFor(email, 'Email invalid');
-        submitButton.emailField = false;
+        // submitButton.emailField = false;
     } else {
         setSuccessFor(email);
-        submitButton.emailField = true;
+        // submitButton.emailField = true;
     }
-    enableSubmit()
+    // enableSubmit()
 }
+
 function checkInputsPassword() {
     const passwordValue = password.value.trim();
-
-    if (!passwordValue.length) {
-        setErrorFor(password, 'Introduceti parola');
-        submitButton.firstPasswordField = false;
-    } else if (!specialPasswordCheck((passwordValue))){
-            setErrorFor(password, 'Minim 6 caractere , maxim 12 , caractere speciale!');
-            submitButton.firstPasswordField = false;
-    } else {
+    if (passwordValue.length < 6) {
+        setErrorFor(password,"Minim 6 Caractere");
+        // submitButton.firstPasswordField = false;
+    } else if (passwordValue.search(/[A-Z]/i) < 0) {
+        setErrorFor(password , "Parola trebuie sa contina o litera mare");
+        // submitButton.firstPasswordField = false;
+    } else if (passwordValue.search(/[0-9]/) < 0) {
+        setErrorFor(password , "Parola trbuie sa contina o cifra");
+        // submitButton.firstPasswordField = false;
+    } else if (passwordValue.search(/[!@#$%^&*]/) < 0) {
+        setErrorFor(password , "Parola trebuie sa contina un caracetr special");
+        // submitButton.firstPasswordField = false;
+    }else {
         setSuccessFor(password);
-        submitButton.firstPasswordField = true;
+        // submitButton.secondPasswordField = true;
     }
-    enableSubmit()
+    // enableSubmit()
 }
+
+
 function checkInputsPassword2() {
     const password2Value = password2.value.trim();
     const passwordValueConfirm = password.value.trim();
 
     if (!password2Value.length) {
         setErrorFor(password2, 'Confirma parola');
-        submitButton.secondPasswordField = false;
+        // submitButton.secondPasswordField = false;
     } else if (passwordValueConfirm !== password2Value) {
         setErrorFor(password2, 'Parolele nu coincid');
-        submitButton.secondPasswordField = false;
+        // submitButton.secondPasswordField = false;
     } else {
         setSuccessFor(password2);
-        submitButton.secondPasswordField = true;
+        // submitButton.secondPasswordField = true;
     }
-    enableSubmit()
+    // enableSubmit()
 }
 function setErrorFor(input, message) {
     const formControl = input.parentElement;
     const small = formControl.querySelector('small');
     formControl.className = 'form-control error';
     small.innerText = message;
+   Object.values(submitButton).every((v) =>{
+       if (v === false){
+           submit.style.backgroundColor = "silver";
+       }
+   })
+
 }
 function setSuccessFor(input) {
     const formControl = input.parentElement;
     formControl.className = 'form-control success';
+    Object.values(submitButton).every((v) =>{
+        if (v === true){
+            submit.style.backgroundColor = "dodgerblue";
+        }
+    })
+
 }
 function isEmail(email) {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 }
-function specialPasswordCheck(password){
-    return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/.test(password);
-}
 
-function enableSubmit(){
-    if (submitButton.usernameField === true && submitButton.emailField === true && submitButton.firstPasswordField === true && submitButton.secondPasswordField === true){
-        submit.style.backgroundColor = "dodgerblue";
-    }
-}
+// function enableSubmit() {
+//     for (let i = 0; i < submitButton.length; i++) {
+//        if (submitButton.length[i] === true){
+//            submit.style.backgroundColor = "dodgerblue";
+//        }
+//    }
+//
+// }
