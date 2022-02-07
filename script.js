@@ -31,55 +31,46 @@ password2.addEventListener('input', e => {
 function checkInputsUsername() {
     const usernameValue = username.value.trim();
 
-    if(usernameValue.length < 3) {
-        setErrorFor(username, 'Minim 3 caractere');
-        // submitButton.usernameField = false;
+    if (!usernameValue.length){
+        setErrorFor(username , "Scrieti un username" , false);
+    } else if(usernameValue.length < 3) {
+        setErrorFor(username, 'Minim 3 caractere' , false);
 
     } else if (usernameValue.length >= 12){
-        setErrorFor(username , 'Maxim 12 caractere')
-        // submitButton.usernameField = false;
+        setErrorFor(username , 'Maxim 12 caractere' , false)
 
     } else {
-        setSuccessFor(username);
-        // submitButton.usernameField = true;
+        setSuccessFor(username , true);
     }
-    // enableSubmit()
+    enableSubmit()
 }
 function checkInputsEmail() {
     const emailValue = email.value.trim();
 
     if (!emailValue.length) {
-        setErrorFor(email, 'Acesta nu este un email');
-        // submitButton.emailField = false;
+        setErrorFor(email, 'Acesta nu este un email' , false);
     } else if (!isEmail(emailValue)) {
-        setErrorFor(email, 'Email invalid');
-        // submitButton.emailField = false;
+        setErrorFor(email, 'Email invalid' , false);
     } else {
-        setSuccessFor(email);
-        // submitButton.emailField = true;
+        setSuccessFor(email , true);
     }
-    // enableSubmit()
+    enableSubmit()
 }
 
 function checkInputsPassword() {
     const passwordValue = password.value.trim();
     if (passwordValue.length < 6) {
-        setErrorFor(password,"Minim 6 Caractere");
-        // submitButton.firstPasswordField = false;
+        setErrorFor(password,"Minim 6 Caractere" , false);
     } else if (passwordValue.search(/[A-Z]/i) < 0) {
-        setErrorFor(password , "Parola trebuie sa contina o litera mare");
-        // submitButton.firstPasswordField = false;
+        setErrorFor(password , "Parola trebuie sa contina o litera mare" , false);
     } else if (passwordValue.search(/[0-9]/) < 0) {
-        setErrorFor(password , "Parola trbuie sa contina o cifra");
-        // submitButton.firstPasswordField = false;
+        setErrorFor(password , "Parola trbuie sa contina o cifra" , false);
     } else if (passwordValue.search(/[!@#$%^&*]/) < 0) {
-        setErrorFor(password , "Parola trebuie sa contina un caracetr special");
-        // submitButton.firstPasswordField = false;
+        setErrorFor(password , "Parola trebuie sa contina un caracetr special" , false);
     }else {
-        setSuccessFor(password);
-        // submitButton.secondPasswordField = true;
+        setSuccessFor(password , true);
     }
-    // enableSubmit()
+    enableSubmit()
 }
 
 
@@ -88,48 +79,39 @@ function checkInputsPassword2() {
     const passwordValueConfirm = password.value.trim();
 
     if (!password2Value.length) {
-        setErrorFor(password2, 'Confirma parola');
-        // submitButton.secondPasswordField = false;
+        setErrorFor(password2, 'Confirma parola' , false);
     } else if (passwordValueConfirm !== password2Value) {
-        setErrorFor(password2, 'Parolele nu coincid');
-        // submitButton.secondPasswordField = false;
+        setErrorFor(password2, 'Parolele nu coincid' , false);
     } else {
-        setSuccessFor(password2);
-        // submitButton.secondPasswordField = true;
+        setSuccessFor(password2 , true);
     }
-    // enableSubmit()
+    enableSubmit()
 }
-function setErrorFor(input, message) {
+function setErrorFor(input, message , key) {
     const formControl = input.parentElement;
     const small = formControl.querySelector('small');
     formControl.className = 'form-control error';
     small.innerText = message;
-   Object.values(submitButton).every((v) =>{
-       if (v === false){
-           submit.style.backgroundColor = "silver";
-       }
-   })
+    submitButton = [key];
 
 }
-function setSuccessFor(input) {
+
+function setSuccessFor(input , key) {
     const formControl = input.parentElement;
     formControl.className = 'form-control success';
-    Object.values(submitButton).every((v) =>{
-        if (v === true){
-            submit.style.backgroundColor = "dodgerblue";
-        }
-    })
-
+    submitButton = [key];
 }
+
 function isEmail(email) {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 }
 
-// function enableSubmit() {
-//     for (let i = 0; i < submitButton.length; i++) {
-//        if (submitButton.length[i] === true){
-//            submit.style.backgroundColor = "dodgerblue";
-//        }
-//    }
-//
-// }
+function enableSubmit() {
+    Object.values(submitButton).every((key) =>{
+        if (key === true){
+            submit.style.backgroundColor = "dodgerblue";
+        }else {
+            submit.style.backgroundColor = "silver";
+        }
+    })
+}
