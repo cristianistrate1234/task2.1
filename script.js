@@ -32,15 +32,15 @@ function checkInputsUsername() {
     const usernameValue = username.value.trim();
 
     if (!usernameValue.length){
-        setErrorFor(username , "Scrieti un username" , false);
+        setErrorFor(username , "Scrieti un username" , "usernameField");
     } else if(usernameValue.length < 3) {
-        setErrorFor(username, 'Minim 3 caractere' , false);
+        setErrorFor(username, 'Minim 3 caractere' , "usernameField");
 
     } else if (usernameValue.length >= 12){
-        setErrorFor(username , 'Maxim 12 caractere' , false)
+        setErrorFor(username , 'Maxim 12 caractere' , "usernameField")
 
     } else {
-        setSuccessFor(username , true);
+        setSuccessFor(username , "usernameField");
     }
     enableSubmit()
 }
@@ -48,11 +48,11 @@ function checkInputsEmail() {
     const emailValue = email.value.trim();
 
     if (!emailValue.length) {
-        setErrorFor(email, 'Acesta nu este un email' , false);
+        setErrorFor(email, 'Acesta nu este un email' , "emailField");
     } else if (!isEmail(emailValue)) {
-        setErrorFor(email, 'Email invalid' , false);
+        setErrorFor(email, 'Email invalid' , "emailField");
     } else {
-        setSuccessFor(email , true);
+        setSuccessFor(email , "emailField");
     }
     enableSubmit()
 }
@@ -60,15 +60,15 @@ function checkInputsEmail() {
 function checkInputsPassword() {
     const passwordValue = password.value.trim();
     if (passwordValue.length < 6) {
-        setErrorFor(password,"Minim 6 Caractere" , false);
+        setErrorFor(password,"Minim 6 Caractere" , "firstPasswordField");
     } else if (passwordValue.search(/[A-Z]/i) < 0) {
-        setErrorFor(password , "Parola trebuie sa contina o litera mare" , false);
+        setErrorFor(password , "Parola trebuie sa contina o litera mare" , "firstPasswordField");
     } else if (passwordValue.search(/[0-9]/) < 0) {
-        setErrorFor(password , "Parola trbuie sa contina o cifra" , false);
+        setErrorFor(password , "Parola trbuie sa contina o cifra" , "firstPasswordField");
     } else if (passwordValue.search(/[!@#$%^&*]/) < 0) {
-        setErrorFor(password , "Parola trebuie sa contina un caracetr special" , false);
+        setErrorFor(password , "Parola trebuie sa contina un caracetr special" , "firstPasswordField");
     }else {
-        setSuccessFor(password , true);
+        setSuccessFor(password , "firstPasswordField");
     }
     enableSubmit()
 }
@@ -79,11 +79,11 @@ function checkInputsPassword2() {
     const passwordValueConfirm = password.value.trim();
 
     if (!password2Value.length) {
-        setErrorFor(password2, 'Confirma parola' , false);
+        setErrorFor(password2, 'Confirma parola' , "secondPasswordField");
     } else if (passwordValueConfirm !== password2Value) {
-        setErrorFor(password2, 'Parolele nu coincid' , false);
+        setErrorFor(password2, 'Parolele nu coincid' , "secondPasswordField");
     } else {
-        setSuccessFor(password2 , true);
+        setSuccessFor(password2 , "secondPasswordField");
     }
     enableSubmit()
 }
@@ -92,14 +92,14 @@ function setErrorFor(input, message , key) {
     const small = formControl.querySelector('small');
     formControl.className = 'form-control error';
     small.innerText = message;
-    submitButton = [key];
+    submitButton[key] = false;
 
 }
 
 function setSuccessFor(input , key) {
     const formControl = input.parentElement;
     formControl.className = 'form-control success';
-    submitButton = [key];
+    submitButton[key] = true;
 }
 
 function isEmail(email) {
@@ -109,9 +109,9 @@ function isEmail(email) {
 function enableSubmit() {
     Object.values(submitButton).every((key) =>{
         if (key === true){
-            submit.style.backgroundColor = "dodgerblue";
+           return  submit.style.backgroundColor = "dodgerblue";
         }else {
-            submit.style.backgroundColor = "silver";
+           return  submit.style.backgroundColor = "silver";
         }
     })
 }
